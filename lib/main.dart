@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-// Update path impor ini
-import 'package:playfield_mobile/screens/menu.dart';
+import 'package:playfield_mobile/screens/login.dart'; // Akan kita buat sebentar lagi
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,13 +12,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Playfield Mobile', // Sesuaikan judul
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo), // Sesuaikan tema
-        useMaterial3: true,
+    return Provider(
+      create: (_) {
+        CookieRequest request = CookieRequest();
+        return request;
+      },
+      child: MaterialApp(
+        title: 'Playfield Mobile',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
+          useMaterial3: true,
+        ),
+        // Kita ganti home awal ke LoginPage
+        home: const LoginPage(),
       ),
-      home: MyHomePage(), // Tidak perlu pass colorScheme jika tidak dipakai
     );
   }
 }

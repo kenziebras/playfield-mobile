@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:playfield_mobile/screens/menu.dart'; 
 // Impor halaman form yang akan kita buat selanjutnya
 import 'package:playfield_mobile/screens/playfield_form.dart';
+import 'package:playfield_mobile/screens/product_entry_list.dart';
+
 
 class LeftDrawer extends StatelessWidget {
   const LeftDrawer({super.key});
@@ -66,6 +68,17 @@ class LeftDrawer extends StatelessWidget {
                 context,
                 MaterialPageRoute(builder: (context) => const PlayfieldFormPage()),
               );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.shopping_basket), // Ikon yang relevan
+            title: const Text('Lihat Daftar Produk'),
+            onTap: () {
+                // Route menu ke halaman produk
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const ProductEntryPage()),
+                );
             },
           ),
         ],
