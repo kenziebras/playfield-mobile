@@ -29,7 +29,7 @@ class ProductDetailPage extends StatelessWidget {
             if (product.fields.thumbnail != null && product.fields.thumbnail!.isNotEmpty)
               Image.network(
                 // Ganti localhost dengan 10.0.2.2 jika menggunakan Emulator Android
-                'http://localhost:8000/proxy-image/?url=${Uri.encodeComponent(product.fields.thumbnail!)}',
+                'http://10.0.2.2:8000/proxy-image/?url=${Uri.encodeComponent(product.fields.thumbnail!)}',
                 width: double.infinity,
                 height: 300,
                 fit: BoxFit.cover,

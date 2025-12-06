@@ -48,7 +48,7 @@ class ItemCard extends StatelessWidget {
             // Melakukan request logout ke backend Django
             // Pastikan URL sesuai dengan konfigurasi server Anda (localhost/10.0.2.2)
             final response = await request.logout(
-                "http://localhost:8000/auth/logout/");
+              "http://10.0.2.2:8000/auth/logout/");
             
             String message = response["message"];
             

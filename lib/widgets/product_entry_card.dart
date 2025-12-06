@@ -27,7 +27,7 @@ class ProductEntryCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(6),
                 child: Image.network(
                   // Ganti localhost dengan 10.0.2.2 jika di emulator Android
-                  'http://localhost:8000/proxy-image/?url=${Uri.encodeComponent(product.fields.thumbnail!)}',
+                  'http://10.0.2.2:8000/proxy-image/?url=${Uri.encodeComponent(product.fields.thumbnail!)}',
                   height: 150,
                   width: double.infinity,
                   fit: BoxFit.cover,

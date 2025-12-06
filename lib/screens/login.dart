@@ -79,8 +79,7 @@ class _LoginPageState extends State<LoginPage> {
                       String password = _passwordController.text;
 
                       // URL SUDAH DIUBAH KE LOCALHOST
-                      final response = await request
-                          .login("http://localhost:8000/auth/login/", {
+                      final response = await request.login("http://10.0.2.2:8000/auth/login/", {
                         'username': username,
                         'password': password,
                       });

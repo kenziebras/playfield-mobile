@@ -18,7 +18,7 @@ class _ProductEntryPageState extends State<ProductEntryPage> {
     // Ganti URL sesuai environment:
     // - Android Emulator: http://10.0.2.2:8000/json/
     // - Browser/iOS: http://localhost:8000/json/
-    final response = await request.get('http://localhost:8000/json/');
+    final response = await request.get('http://10.0.2.2:8000/json-by-user/');
 
     // Melakukan decode response menjadi bentuk json
     var data = response;
@@ -66,11 +66,22 @@ class _ProductEntryPageState extends State<ProductEntryPage> {
             } else {
               return ListView.builder(
                 itemCount: snapshot.data!.length,
-                itemBuilder: (_, index) => ProductEntryCard(
-                  product: snapshot.data![index],
-                  // Tambahkan parameter onTap (pastikan ProductEntryCard Anda mendukung onTap, 
-                  // atau bungkus ProductEntryCard dengan InkWell/GestureDetector di sini)
-                ),
+                itemBuilder: (_, index) {
+                  final product = snapshot.data![index];
+                  
+                  // Bungkus Card dengan InkWell untuk navigasi ke Detail
+                  return InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ProductDetailPage(product: product),
+                        ),
+                      );
+                    },
+                    child: ProductEntryCard(product: product),
+                  );
+                },
               );
             }
           }

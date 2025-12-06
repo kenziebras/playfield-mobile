@@ -113,12 +113,12 @@ class _RegisterPageState extends State<RegisterPage> {
 
                       // URL SUDAH DIUBAH KE LOCALHOST
                       final response = await request.postJson(
-                          "http://localhost:8000/auth/register/",
-                          jsonEncode({
-                            "username": username,
-                            "password1": password1,
-                            "password2": password2,
-                          }));
+                      "http://10.0.2.2:8000/auth/register/", // Ganti URL
+                      jsonEncode({
+                        "username": username,
+                        "password1": password1, // SESUAIKAN KEY DENGAN DJANGO
+                        "password2": password2, // SESUAIKAN KEY DENGAN DJANGO
+                      }));
                       if (context.mounted) {
                         if (response['status'] == 'success') {
                           ScaffoldMessenger.of(context).showSnackBar(

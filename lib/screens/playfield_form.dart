@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+import 'package:playfield_mobile/screens/menu.dart';
 // Impor drawer yang sudah dibuat
 import 'package:playfield_mobile/widgets/left_drawer.dart';
+import 'dart:convert';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:provider/provider.dart';
 
 class PlayfieldFormPage extends StatefulWidget {
   const PlayfieldFormPage({super.key});
@@ -18,6 +23,7 @@ class _PlayfieldFormPageState extends State<PlayfieldFormPage> {
 
   @override
   Widget build(BuildContext context) {
+    final request = context.watch<CookieRequest>();
     return Scaffold(
       appBar: AppBar(
         title: const Center(
@@ -125,37 +131,35 @@ class _PlayfieldFormPageState extends State<PlayfieldFormPage> {
                       backgroundColor:
                           WidgetStateProperty.all(Colors.indigo),
                     ),
-                    onPressed: () {
+                    onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        // Tampilkan pop-up (Sesuai Tugas 8)
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: const Text('Produk berhasil tersimpan'),
-                              content: SingleChildScrollView(
-                                child: Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                  children: [
-                                    Text('Nama: $_name'),
-                                    Text('Harga: $_price'),
-                                    Text('Deskripsi: $_description'),
-                                  ],
-                                ),
-                              ),
-                              actions: [
-                                TextButton(
-                                  child: const Text('OK'),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                ),
-                              ],
-                            );
-                          },
+                        final response = await request.postJson(
+                          "http://10.0.2.2:8000/create-flutter/", // Endpoint khusus Flutter
+                          jsonEncode(<String, String>{
+                            'name': _name,
+                            'price': _price.toString(), // Pastikan dikirim sebagai string/int sesuai kebutuhan JSON
+                            'description': _description,
+                            'category': 'ball', // Atau buat input dropdown untuk kategori
+                            // 'thumbnail': ..., // Jika ada input thumbnail
+                            // 'is_featured': ... // Jika ada input boolean
+                          }),
                         );
-                        _formKey.currentState!.reset(); // Reset form
+                        
+                        if (context.mounted) {
+                          if (response['status'] == 'success') {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text("Produk baru berhasil disimpan!")),
+                            );
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(builder: (context) => MyHomePage()),
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text("Terdapat kesalahan, silakan coba lagi.")),
+                            );
+                          }
+                        }
                       }
                     },
                     child: const Text(
